@@ -40,6 +40,7 @@ function suara($text)
 		$return = [];
 		foreach (str_split($text) as $key => $value)
 			if ($value >= 'A' && $value <= 'Z') $return[] = $audio_url . 'huruf/WAVE_' . $value . '.wav';
+			else if(preg_match('/^\d+$/', $value)) $return = array_merge($return, suara($value));
 		return $return;
 	}
 }

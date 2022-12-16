@@ -7,6 +7,7 @@ function suara($text)
 	$audio_url = $base_url . 'audio/';
 
 	$number_list = [
+		0 => $audio_url . 'angka/WAVE_NOL.wav',
 		1 => $audio_url . 'angka/WAVE_SATU.wav',
 		2 => $audio_url . 'angka/WAVE_DUA.wav',
 		3 => $audio_url . 'angka/WAVE_TIGA.wav',

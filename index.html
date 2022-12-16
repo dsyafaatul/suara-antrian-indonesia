@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<input type="text" id="input">
+	<button id="play">Play</button>
+	<script>
+		let playButton = document.querySelector('#play');
+		let inputText = document.querySelector('#input');
+
+		play.onclick = function () {
+			let xhr = new XMLHttpRequest();
+
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == xhr.LOADING) {
+					playButton.disabled = true;
+				}
+				if (xhr.readyState == xhr.DONE) {
+					try {
+						let data = JSON.parse(xhr.responseText);
+
+						if (data.length > 0) {
+							function playaudio(suara, index) {
+								var player = new Audio(suara[index]);
+
+								player.play().catch(function (e) {
+									console.log(e);
+									playButton.disabled = false;
+								});
+								if (suara[index + 1]) {
+									player.addEventListener('ended', function () {
+										playaudio(suara, index + 1);
+									});
+								} else {
+									playButton.disabled = false;
+								}
+							}
+
+							let start = 0;
+							playaudio(data, start);
+						} else {
+							playButton.disabled = false;
+						}
+					} catch (e) {
+						console.log(e.message);
+						playButton.disabled = false;
+					}
+				}
+			}
+			xhr.open('POST', 'audio.php');
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xhr.send('input=' + inputText.value);
+		}
+	</script>
+</body>
+
+</html>
